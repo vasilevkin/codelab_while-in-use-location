@@ -85,7 +85,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private var foregroundAndBackgroundLocationEnabled = false
 
     // TODO: Step 3.2, add check for devices with Android 10.
-    private val runningQOrLater = false
+    private val runningQOrLater = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
+//        false
 
     // Provides location updates for while-in-use feature.
     private var foregroundOnlyLocationService: ForegroundOnlyLocationService? = null
@@ -219,7 +220,15 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val foregroundLocationApproved = foregroundPermissionApproved()
 
         // TODO: Step 3.3, Add check for background permission.
-        val backgroundPermissionApproved = true
+        val backgroundPermissionApproved =
+            if (runningQOrLater) {
+                ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            }
+//            true
 
         return foregroundLocationApproved && backgroundPermissionApproved
     }
@@ -259,6 +268,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val provideRationale = foregroundAndBackgroundPermissionApproved()
 
         val permissionRequests = arrayListOf(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (runningQOrLater) {
+            permissionRequests.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
         // TODO: Step 3.4, Add another entry to permission request array.
 
 
@@ -338,6 +351,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 var foregroundAndBackgroundLocationApproved =
                     grantResults[0] == PackageManager.PERMISSION_GRANTED
 
+                if(runningQOrLater) {
+                    foregroundAndBackgroundLocationApproved =
+                        foregroundAndBackgroundLocationApproved &&
+                                (grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                }
                 // TODO: Step 3.5, For Android 10, check if background permissions approved in request code.
 
 
