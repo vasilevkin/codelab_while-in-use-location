@@ -42,6 +42,7 @@
         <!-- Foreground services in 10+ require type. -->
         <!-- TODO: 2.2, Add foreground service type. -->
         <service
+            android:foregroundServiceType="location"
             android:name="com.example.android.whileinuselocation.ForegroundOnlyLocationService"
             android:enabled="true"
             android:exported="false" />

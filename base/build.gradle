@@ -21,12 +21,15 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     // TODO: Step 2.1, Target Android 10.
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+//    compileSdkVersion 28
+    buildToolsVersion "29.0.3"
+//    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.example.android.whileinuselocation"
         minSdkVersion 26
-        targetSdkVersion 28
+        targetSdkVersion 29
+//        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
